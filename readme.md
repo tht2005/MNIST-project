@@ -13,4 +13,5 @@
     And output current result to stderr (example: stderr.txt) 
 
 # Result
+    ![Result plot](https://github.com/tht2005/MNIST-project/blob/main/readme_image/image.png?raw=true)
 
