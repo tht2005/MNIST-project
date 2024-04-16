@@ -1,0 +1,51 @@
+Image: 59999
+Cost: 30743.7
+Prediction: 7364 / 10000
+Image: 59999
+Cost: 19355.2
+Prediction: 8302 / 10000
+Image: 59999
+Cost: 13958.4
+Prediction: 8454 / 10000
+Image: 59999
+Cost: 12386.3
+Prediction: 8607 / 10000
+Image: 59999
+Cost: 11738
+Prediction: 8602 / 10000
+Image: 59999
+Cost: 11212.6
+Prediction: 8602 / 10000
+Image: 59999
+Cost: 10872.9
+Prediction: 8627 / 10000
+Image: 59999
+Cost: 10638
+Prediction: 8696 / 10000
+Image: 59999
+Cost: 10500.1
+Prediction: 8860 / 10000
+Image: 59999
+Cost: 10321.6
+Prediction: 9060 / 10000
+Image: 59999
+Cost: 9923.74
+Prediction: 9015 / 10000
+Image: 59999
+Cost: 6376.78
+Prediction: 9523 / 10000
+Image: 59999
+Cost: 4842.43
+Prediction: 9559 / 10000
+Image: 59999
+Cost: 4770.47
+Prediction: 9628 / 10000
+Image: 59999
+Cost: 4352.12
+Prediction: 9628 / 10000
+Image: 59999
+Cost: 4204.65
+Prediction: 9624 / 10000
+Image: 59999
+Cost: 3994.07
+Prediction: 9627 / 10000
