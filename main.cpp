@@ -3,12 +3,6 @@
 #include "NeuralNetwork.h"
 #include "myrandom.h"
 
-const int NDATA = 60006;
-
-int ndata;
-int label[NDATA], image_row, image_column;
-std::vector<double> pixels[NDATA];
-
 // read 32-bit integer in MSB format
 int read32(FILE *f) {
 	int val;
@@ -20,8 +14,7 @@ int read32(FILE *f) {
 	}
 	return ret;
 }
-
-void input(const char* label_name, const char* image_name) {
+void input(const char* label_name, const char* image_name, int& ndata, int label[], int& image_row, int& image_column, std::vector<double> pixels[]) {
 	// read labels
 	FILE *label_file = fopen(label_name, "rb");
 	read32(label_file); // skip magic number
@@ -53,6 +46,11 @@ void input(const char* label_name, const char* image_name) {
 
 	fclose(image_file);
 }
+
+const int NDATA = 60006;
+int ndata, ntest;
+int label[NDATA], test_label[NDATA], image_row, image_column;
+std::vector<double> pixels[NDATA], test_pixels[NDATA];
 
 double ReLU(double x) {
 	if(x > 0) {
@@ -92,7 +90,9 @@ double d_loss_fun(double y, double y_label) {
 
 int main() {
 	// read training data
-	input("./data/train-labels.idx1-ubyte", "./data/train-images.idx3-ubyte");
+	input("./data/train-labels.idx1-ubyte", "./data/train-images.idx3-ubyte", ndata, label, image_row, image_column, pixels);
+	// read testing data
+	input("./data/t10k-labels.idx1-ubyte", "./data/t10k-images.idx3-ubyte", ntest, test_label, image_row, image_column, test_pixels);
 
 	std::vector<size_t> layer_sizes;
 	// input layer
@@ -123,9 +123,6 @@ int main() {
 
 	std::vector<double> outputs;
 
-	double best = 1e18;
-	int greater_than_best = 0;
-
 	std::cerr << std::endl;
 	while(1) {
 		double cost = 0;
@@ -141,34 +138,21 @@ int main() {
 
 			cost += f.calculate_total_cost(outputs);
 
-			std::cerr << "\rdone " << i;
+			std::cerr << "\rImage: " << i;
 		}
 
-		std::cerr << std::endl << cost << std::endl;
+		std::cerr << std::endl << "Cost: " << cost << std::endl;
 
-		if(best > cost + 1e-3) {
-			best = cost;
-			greater_than_best = 0;
+		int correct = 0;
+		for(int i = 0; i < ntest; ++i) {
+			f.get_input(test_pixels[i]);
+			f.calculate_values();
+
+			if(f.choose() == test_label[i]) {
+				++correct;
+			}
 		}
-		else if(++greater_than_best > 20) {
-			break;
-		}
+		std::cerr << "Prediction: " << correct << " / " << ntest << std::endl;
 	}
-
-	// read testing data
-	input("./data/t10k-labels.idx1-ubyte", "./data/t10k-images.idx3-ubyte");
-
-	int correct = 0;
-	for(int i = 0; i < ndata; ++i) {
-		f.get_input(pixels[i]);
-		f.calculate_values();
-
-		if(f.choose() == label[i]) {
-			++correct;
-		}
-	}
-	
-	std::cerr << correct << " / " << ndata;
-
 	return 0;
 }
